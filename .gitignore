@@ -31,3 +31,16 @@ node_modules
 
 # Optional REPL history
 .node_repl_history
+
+# idea
+.idea
+
+
+.DS_Store
+*.db
+*.pyc
+*.swp
+*~
+
+# bower
+bower_components
