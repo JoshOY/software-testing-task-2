@@ -11,6 +11,7 @@ import { routerReducer } from 'react-router-redux';
 
 // ============================================
 // Import app reducers
+import PersistReducer from './PersistReducer.jsx';
 import MainReducer from './MainReducer.jsx';
 
 // ============================================
@@ -18,8 +19,10 @@ import MainReducer from './MainReducer.jsx';
 
 const RootReducer = combineReducers({
   'main': MainReducer,
+  // 持久化存储
+  'persist': PersistReducer,
   // 注意一定要加上routing: routerReducer
-  'routing': routerReducer
+  'routing': routerReducer,
 });
 
 export default RootReducer;

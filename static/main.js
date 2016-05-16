@@ -2,11 +2,17 @@
 // Import modules
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, bindActionCreators, applyMiddleware } from 'redux';
+import { compose, createStore, bindActionCreators, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute, Link, IndexLink, hashHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import ReduxThunk from 'redux-thunk';
+//import persistState from 'redux-localstorage';
+
+// ============================================
+// Import middlewares
+import localStorageDump from './middleware/localStorageDump';
+import localStorageLoad from './middleware/localStorageLoad';
 
 // ============================================
 // Import pages
@@ -28,9 +34,16 @@ import './common/vendor.less';
 // Render Components / Routers
 
 const main = () => {
-
   // Create store
-  const store = createStore(RootReducer, applyMiddleware(ReduxThunk));
+  const store = createStore(RootReducer, applyMiddleware(
+    localStorageLoad, ReduxThunk, localStorageDump
+  ));
+  console.log(`[DEBUG] Created store.getState() = `, store.getState());
+  window.store = store;  // Debug only
+
+  store.dispatch({
+    'type': '__REDUX_STORE_INIT',
+  });
   // Create an enhanced history that syncs navigation events with the store
   const history = syncHistoryWithStore(hashHistory, store);
   // render
