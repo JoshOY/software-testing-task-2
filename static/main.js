@@ -31,6 +31,7 @@ import RootReducer from './reducers/RootReducer.jsx';
 // Import common stylesheet
 import './common/base.less';
 import './common/vendor.less';
+import 'antd/dist/antd.less';
 
 // ============================================
 // Render Components / Routers
