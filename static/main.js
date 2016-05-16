@@ -7,12 +7,14 @@ import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute, Link, IndexLink, hashHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import ReduxThunk from 'redux-thunk';
-//import persistState from 'redux-localstorage';
+
+// 防止浏览器太旧, 用不了Object.assign等
+import 'babel-polyfill';
 
 // ============================================
 // Import middlewares
-import localStorageDump from './middleware/localStorageDump';
-import localStorageLoad from './middleware/localStorageLoad';
+import localStorageDump from './middlewares/localStorageDump';
+import localStorageLoad from './middlewares/localStorageLoad';
 
 // ============================================
 // Import pages
