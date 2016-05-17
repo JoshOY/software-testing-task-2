@@ -37,6 +37,8 @@
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "postcss-loader": "^0.9.1",
+    "rc-scroll-anim": "^0.2.8",
+    "rc-tween-one": "^0.4.3",
     "react": "^15.0.2",
     "react-dom": "^15.0.2",
     "react-redux": "^4.4.5",

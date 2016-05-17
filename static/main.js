@@ -22,6 +22,7 @@ import Main from './pages/Main.jsx';
 import Foo from './pages/Foo.jsx';
 import Bar from './pages/Bar.jsx';
 import PageNotFound from './pages/PageNotFound.jsx';
+import Login from './pages/Login.jsx';
 
 // ============================================
 // import root reducer
@@ -55,6 +56,7 @@ const main = () => {
       <Router history={history}>
         <Route path="/">
           <IndexRoute component={Main} />
+          <Route path="/login" component={Login} />
           <Route path="/foo" component={Foo} />
           <Route path="/bar" component={Bar} />
           <Route path="/*" component={PageNotFound} />
