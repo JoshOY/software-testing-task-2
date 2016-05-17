@@ -8,7 +8,6 @@ const MenuItemGroup = Menu.ItemGroup;
 
 import AppBody from '../components/AppBody/AppBody.jsx';
 import AppHeader from '../components/AppHeader/AppHeader.jsx';
-import AppNav from '../components/AppNav/AppNav.jsx';
 import AppWrapper from '../components/AppWrapper/AppWrapper.jsx';
 import AppFoot from '../components/AppFoot/AppFoot.jsx';
 

@@ -52,8 +52,8 @@ AppHeader.defaultProps = {
   className: 'header',
   dataSource: {
     img: 'https://os.alipayobjects.com/rmsportal/mlcYmsRilwraoAe.svg',
-    menu1: '查询',
-    menu2: '登录',
+    menu1: '号码查询',
+    menu2: '号码充值',
     //menu3: '导航三',
     //menu4: '导航四',
   },

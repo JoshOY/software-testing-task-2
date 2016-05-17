@@ -23,6 +23,8 @@ import Foo from './pages/Foo.jsx';
 import Bar from './pages/Bar.jsx';
 import PageNotFound from './pages/PageNotFound.jsx';
 import Login from './pages/Login.jsx';
+import Query from './pages/Query.jsx';
+import Recharge from './pages/Recharge.jsx';
 
 // ============================================
 // import root reducer
@@ -44,10 +46,10 @@ const main = () => {
   ));
   console.log(`[DEBUG] Created store.getState() = `, store.getState());
   window.store = store;  // Debug only
-
   store.dispatch({
     'type': '__REDUX_STORE_INIT',
   });
+
   // Create an enhanced history that syncs navigation events with the store
   const history = syncHistoryWithStore(hashHistory, store);
   // render
@@ -57,6 +59,8 @@ const main = () => {
         <Route path="/">
           <IndexRoute component={Main} />
           <Route path="/login" component={Login} />
+          <Route path="/dashboard/query" component={Query} />
+          <Route path="/dashboard/recharge" component={Recharge} />
           <Route path="/foo" component={Foo} />
           <Route path="/bar" component={Bar} />
           <Route path="/*" component={PageNotFound} />
@@ -65,6 +69,8 @@ const main = () => {
     </Provider>),
     document.getElementById('app-root')
   );
+
+
 };
 
 main.call(this);

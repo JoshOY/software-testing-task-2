@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Table, Form, Input, Button, Checkbox, Row, Col, Menu, Icon } from 'antd';
 
 import './AppNav.less';
 
@@ -11,7 +12,11 @@ class AppNav extends Component {
   render() {
     return (
       <div className="app-component-nav clearfix">
-        { this.props.children }
+        <Row type="flex" justify="center">
+          <Col span={20}>
+            { this.props.children }
+          </Col>
+        </Row>
       </div>
     );
   }

@@ -41,7 +41,7 @@ class AppFoot extends Component {
 AppFoot.defaultProps = {
   className: 'app-component-footer',
   dataSource: {
-    height: '80px',
+    height: '60px',
     text: 'Copyright © 2016 The Project by <a href="#">Ant Motion</a>. All Rights Reserved',
   },
   variables: {

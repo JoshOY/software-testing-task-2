@@ -2,7 +2,8 @@
 // Import modules
 
 const initState = {
-  token: ''
+  token: '',
+  loginUsername: '',
 };
 
 // ============================================
@@ -15,6 +16,7 @@ const actSetToken = (state, action) => {
 };
 
 const actReduxStoreResetState = (state, action) => {
+  console.log('Resetting to state: ', action.payload);
   return Object.assign({}, state, action.payload);
 };
 
