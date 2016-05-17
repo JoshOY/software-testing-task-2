@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
+import { Form, Input, Button, Checkbox, Row, Col, Menu, Icon } from 'antd';
+import { Link } from 'react-router';
 const FormItem = Form.Item;
 
 // Import components
@@ -62,6 +63,18 @@ class Login extends Component {
     return (
       <AppBody>
         <AppHeader />
+        <AppNav>
+          <Menu selectedKeys={['query']} mode="horizontal">
+            <Menu.Item key="query">
+              <Icon type="search" />账号查询
+            </Menu.Item>
+            <Menu.Item key="recharge">
+              <Link to="/dashboard/recharge">
+                <Icon type="pay-circle-o" />账号充值
+              </Link>
+            </Menu.Item>
+          </Menu>
+        </AppNav>
         <AppWrapper width="50%">
           <Row type="flex" justify="center">
             <Col span={24}>

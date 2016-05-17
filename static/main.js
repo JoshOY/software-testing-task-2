@@ -50,6 +50,13 @@ const main = () => {
     'type': '__REDUX_STORE_INIT',
   });
 
+  const requireAuth = (nextState, transition, callback) => {
+    if (!store.getState().persist.token) {
+      transition.to('/login');
+    }
+    callback();
+  };
+
   // Create an enhanced history that syncs navigation events with the store
   const history = syncHistoryWithStore(hashHistory, store);
   // render
@@ -59,7 +66,7 @@ const main = () => {
         <Route path="/">
           <IndexRoute component={Main} />
           <Route path="/login" component={Login} />
-          <Route path="/dashboard/query" component={Query} />
+          <Route onEnter={requireAuth} path="/dashboard/query" component={Query} />
           <Route path="/dashboard/recharge" component={Recharge} />
           <Route path="/foo" component={Foo} />
           <Route path="/bar" component={Bar} />

@@ -14,6 +14,7 @@ import { routerReducer } from 'react-router-redux';
 import PersistReducer from './PersistReducer.jsx';
 import MainReducer from './MainReducer.jsx';
 import QueryReducer from './QueryReducer.jsx';
+import RechargeReducer from './RechargeReducer.jsx';
 
 // ============================================
 // Combine
@@ -21,6 +22,7 @@ import QueryReducer from './QueryReducer.jsx';
 const RootReducer = combineReducers({
   'main': MainReducer,
   'query': QueryReducer,
+  'recharge': RechargeReducer,
   // 持久化存储
   'persist': PersistReducer,
   // 注意一定要加上routing: routerReducer
