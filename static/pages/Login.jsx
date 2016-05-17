@@ -11,16 +11,24 @@ import AppNav from '../components/AppNav/AppNav.jsx';
 import AppWrapper from '../components/AppWrapper/AppWrapper.jsx';
 import AppFoot from '../components/AppFoot/AppFoot.jsx';
 
+// Import actions
+import * as PersistActions from '../actions/PersistActions.jsx';
+
 class Login extends Component {
 
   constructor(props) {
     super(props);
 
     this.loginForm = React.createClass({
+
       handleSubmit(e) {
         e.preventDefault();
         console.log('收到表单值：', this.props.form.getFieldsValue());
+        const phonenum = this.props.form.getFieldsValue().phonenum;
+        const password = this.props.form.getFieldsValue().password;
+        this.props.dispatch(PersistActions.actLogin(phonenum, password));
       },
+
       render() {
         const { getFieldProps } = this.props.form;
         const formItemLayout = {
@@ -46,19 +54,18 @@ class Login extends Component {
           </Form>
         );
       }
+
     });
 
     this.loginForm = Form.create()(this.loginForm);
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    console.log('收到表单值：', this.props.form.getFieldsValue());
-  }
+
 
   render() {
 
     const LoginForm = this.loginForm;
+    const { dispatch } = this.props;
 
     return (
       <AppBody>
@@ -78,7 +85,7 @@ class Login extends Component {
         <AppWrapper width="50%">
           <Row type="flex" justify="center">
             <Col span={24}>
-              <LoginForm />
+              <LoginForm dispatch={dispatch} />
             </Col>
           </Row>
         </AppWrapper>
@@ -91,7 +98,8 @@ class Login extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    state
+    reduxStore: state,
+    dispatch: state.dispatch
   };
 };
 

@@ -8,6 +8,8 @@ const initState = {
   paymentMethod: null,
   paymentId: null,
   paymentAmount: null,
+  tid: null,
+  toBankAccount: null,
   paymentUid: 'dsfasduf83-adfasdi-sdfasxcxzv',
   balance: '50.00'
 };
@@ -32,7 +34,8 @@ const actStepOneNextResolve = (state, action) => {
   return Object.assign({}, state, {
     pendingState: false,
     currentStep: 1,
-    phoneNumber: action.phoneNumber
+    phoneNumber: action.phoneNumber,
+    paymentAmount: action.paymentAmount
   });
 };
 
@@ -55,7 +58,8 @@ const actStepTwoNextResolve = (state, action) => {
   return Object.assign({}, state, {
     pendingState: false,
     currentStep: 2,
-    paymentMethod: action.paymentMethod
+    paymentMethod: action.paymentMethod,
+    tid: action.tid
   });
 };
 
@@ -90,8 +94,7 @@ const actStepThreeNextResolve = (state, action) => {
   return Object.assign({}, state, {
     pendingState: false,
     currentStep: 3,
-    paymentId: action.paymentId,
-    paymentAmount: action.paymentAmount
+    paymentId: action.paymentId
   });
 };
 

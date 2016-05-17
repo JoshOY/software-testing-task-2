@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 // Import components
-import { Menu, Icon } from 'antd';
+import { Menu, Icon, Row, Col } from 'antd';
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
@@ -21,12 +22,25 @@ class Main extends Component {
   }
 
   render() {
+
+    const { loginUser, loginStatus } = this.props;
+
     return (
       <AppBody>
         <AppHeader />
-          <AppWrapper>
-            Test Content.
-          </AppWrapper>
+        <AppWrapper>
+          <Row type="flex" justify="center">
+            <Col span={20}>
+              <h1>主页</h1>
+              <p>
+                欢迎您访问话费查询充值平台, 请选择:&nbsp;
+                <Link to="/login" className="app-color-blue">登录查询</Link>
+                或
+                <Link to="/dashboard/recharge" className="app-color-blue">充值话费</Link>
+              </p>
+            </Col>
+          </Row>
+        </AppWrapper>
         <AppFoot />
       </AppBody>
     );
@@ -36,7 +50,9 @@ class Main extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    state
+    reduxStore: state,
+    loginUser: state.persist.loginUser,
+    loginStatus: state.persist.loginStatus
   };
 };
 

@@ -3,7 +3,8 @@
 
 const initState = {
   token: '',
-  loginUsername: '',
+  loginUser: '',
+  loginStatus: false,
 };
 
 // ============================================
@@ -20,6 +21,20 @@ const actReduxStoreResetState = (state, action) => {
   return Object.assign({}, state, action.payload);
 };
 
+const actLoginSuccess = (state, action) => {
+  return Object.assign({}, state, {
+    token: action.token,
+    loginUser: action.loginUser,
+    loginStatus: true
+  });
+};
+
+const actLogout = (state, action) => {
+  return Object.assign({}, state, {
+    loginStatus: false
+  });
+};
+
 const actDefault = (state, action) => {
   return state;
 };
@@ -31,9 +46,13 @@ const actDefault = (state, action) => {
 const reducerFn = (state = initState, action) => {
   switch(action.type) {
     case '__REDUX_STORE_RESET_STATE':
-      return actReduxStoreResetState(state, action); break;
+      return actReduxStoreResetState(state, action);
     case 'PERSIST__UPDATE_TOKEN':
-      return actSetToken(state, action); break;
+      return actSetToken(state, action);
+    case 'PERSIST__LOGIN_SUCCESS':
+      return actLoginSuccess(state, action);
+    case 'PERSIST__LOGOUT':
+      return actLogout(state, action);
     default:
       return actDefault(state, action);
   }

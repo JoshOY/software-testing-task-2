@@ -11,6 +11,9 @@ import AppWrapper from '../components/AppWrapper/AppWrapper.jsx';
 import AppFoot from '../components/AppFoot/AppFoot.jsx';
 import AppNav from '../components/AppNav/AppNav.jsx';
 
+// import actions
+import * as QueryActions from '../actions/QueryActions.jsx';
+
 class Query extends Component {
 
   constructor(props) {
@@ -26,6 +29,12 @@ class Query extends Component {
         dataIndex: 'val'
       }
     ];
+
+    this.props.dispatch(QueryActions.actQueryInfo(this.props.token));
+  }
+
+  ComponentDidMount() {
+
   }
 
   render() {
@@ -36,7 +45,7 @@ class Query extends Component {
       {
         key: '1',
         name: '电话号码',
-        val: queryData.phoneNum,
+        val: queryData.phoneNumber,
       },
       {
         key: '2',
@@ -119,8 +128,11 @@ class Query extends Component {
 const mapStateToProps = (state) => {
   return {
     reduxStore: state,
+    dispatch: state.dispatch,
     token: state.persist.token,
-    queryData: state.query.queryData
+    queryData: state.query.queryData,
+    loginUser: state.persist.loginUser,
+    loginStatus: state.persist.loginStatus
   };
 };
 

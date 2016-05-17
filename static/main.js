@@ -5,8 +5,9 @@ import ReactDOM from 'react-dom';
 import { compose, createStore, bindActionCreators, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute, Link, IndexLink, hashHistory } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
+import { syncHistoryWithStore, push } from 'react-router-redux';
 import ReduxThunk from 'redux-thunk';
+import { message } from 'antd';
 
 // 防止浏览器太旧, 用不了Object.assign等
 import 'babel-polyfill';
@@ -50,15 +51,17 @@ const main = () => {
     'type': '__REDUX_STORE_INIT',
   });
 
-  const requireAuth = (nextState, transition, callback) => {
-    if (!store.getState().persist.token) {
-      transition.to('/login');
+  const requireAuth = (nextState, replaceState) => {
+    if (!store.getState().persist.loginStatus) {
+      message.info('请先登录', 2);
+      replaceState('/login');
     }
-    callback();
   };
 
   // Create an enhanced history that syncs navigation events with the store
   const history = syncHistoryWithStore(hashHistory, store);
+  window.routerHistory = history;
+
   // render
   ReactDOM.render(
     (<Provider store={store}>

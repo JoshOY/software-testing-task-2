@@ -31,7 +31,7 @@ const formStepOne = React.createClass({
       }
       console.log('Submit!!!');
       console.log(values);
-      this.props.dispatch(RechargeActions.actStepOneNext(values.phoneNumber));
+      this.props.dispatch(RechargeActions.actStepOneNext(values.phoneNumber, values.paymentAmount));
     });
   },
   phoneNumberNotExist(rule, value, callback) {
@@ -47,6 +47,20 @@ const formStepOne = React.createClass({
       }, 800);
     }
   },
+  validatePaymentAmount(rule, value, callback) {
+    if (!value) {
+      callback();
+    } else {
+      setTimeout(() => {
+        if (!value.match(/^[1-9]+[0-9]*((\.)[0-9])?[0-9]?$/)) {
+          callback([new Error('请输入合法的金额。')]);
+        } else {
+          callback();
+        }
+      }, 800);
+    }
+  },
+
   render() {
     const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
     // 验证
@@ -60,6 +74,17 @@ const formStepOne = React.createClass({
       labelCol: { span: 6 },
       wrapperCol: { span: 14 },
     };
+    const paymentAmountProps = getFieldProps('paymentAmount', {
+      rules: [
+        {
+          required: true,
+          message: `请填写支付金额.`
+        },
+        {
+          validator: this.validatePaymentAmount
+        }
+      ]
+    });
     return (
       <Form horizontal onSubmit={this.handleSubmit}  form={this.props.form}>
         <FormItem
@@ -68,6 +93,12 @@ const formStepOne = React.createClass({
           help={isFieldValidating('phoneNumber') ? '校验中...' : (getFieldError('phoneNumber') || []).join(', ')}
           label="手机号码：">
           <Input type="text"  {...phoneNumberProps} placeholder="请填写您要充值的手机号码" />
+        </FormItem>
+        <FormItem
+          {...formItemLayout}
+          hasFeedback
+          label="支付金额(元): ">
+          <Input type="text" {...paymentAmountProps} placeholder="请填写您的支付金额" />
         </FormItem>
         <FormItem wrapperCol={{ span: 16, offset: 6 }} style={{ marginTop: 24 }}>
           <Button type="primary" htmlType="submit">下一步</Button>
@@ -129,9 +160,9 @@ const formStepTwo = React.createClass({
           </Select>
         </FormItem>
         <FormItem wrapperCol={{ span: 16, offset: 6 }} style={{ marginTop: 24 }}>
-          <Button type="primary" htmlType="submit">下一步</Button>
-          &nbsp;&nbsp;&nbsp;
           <Button type="ghost" onClick={this.handleGotoPrevStep}>上一步</Button>
+          &nbsp;&nbsp;&nbsp;
+          <Button type="primary" htmlType="submit">下一步</Button>
         </FormItem>
       </Form>
     );
@@ -153,7 +184,7 @@ const formStepThree = React.createClass({
       }
       console.log('Submit!!!');
       console.log(values);
-      this.props.dispatch(RechargeActions.actStepThreeNext(values.paymentId, values.paymentPassword, values.paymentAmount));
+      this.props.dispatch(RechargeActions.actStepThreeNext(values.paymentId, values.paymentPassword));
     });
   },
 
@@ -162,19 +193,7 @@ const formStepThree = React.createClass({
     this.props.dispatch(RechargeActions.actStepThreePrev());
   },
 
-  validatePaymentAmount(rule, value, callback) {
-    if (!value) {
-      callback();
-    } else {
-      setTimeout(() => {
-        if (!value.match(/^[1-9]+[0-9]*((\.)[0-9])?[0-9]?$/)) {
-          callback([new Error('请输入合法的金额。')]);
-        } else {
-          callback();
-        }
-      }, 800);
-    }
-  },
+
 
   render() {
     const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
@@ -192,18 +211,6 @@ const formStepThree = React.createClass({
       'ICBC': '工商银行卡号',
       'ABC': '农业银行卡号'
     };
-
-    const paymentAmountProps = getFieldProps('paymentAmount', {
-      rules: [
-        {
-          required: true,
-          message: `请填写支付金额.`
-        },
-        {
-          validator: this.validatePaymentAmount
-        }
-      ]
-    });
 
     const paymentIdProps = getFieldProps('paymentId', {
       rules: [{
@@ -223,9 +230,10 @@ const formStepThree = React.createClass({
       <Form horizontal onSubmit={this.handleSubmit}  form={this.props.form}>
         <FormItem
           {...formItemLayout}
-          hasFeedback
-          label="支付金额(元): ">
-          <Input type="text" {...paymentAmountProps} placeholder="请填写您的支付金额" />
+          label="支付金额：">
+          <p className="ant-form-text" id="paymentAccount" name="paymentAccount">
+            { this.props.paymentAmount + ' 元' }
+          </p>
         </FormItem>
         <FormItem
           {...formItemLayout}
@@ -243,7 +251,7 @@ const formStepThree = React.createClass({
         <FormItem wrapperCol={{ span: 16, offset: 6 }} style={{ marginTop: 24 }}>
           <Button type="ghost" onClick={this.handleGotoPrevStep}>上一步</Button>
           &nbsp;&nbsp;&nbsp;
-          <Button type="primary" htmlType="submit">下一步</Button>
+          <Button type="primary" htmlType="submit">确认付款</Button>
         </FormItem>
       </Form>
     );
@@ -318,7 +326,7 @@ class Recharge extends Component {
 
   render() {
 
-    const { reduxStore, currentStep, dispatch, pendingState, paymentMethod } = this.props;
+    const { reduxStore, currentStep, dispatch, pendingState, paymentMethod, paymentAmount } = this.props;
     const FormStepOne = this.formStepOne;
     const FormStepTwo = this.formStepTwo;
     const FormStepThree = this.formStepThree;
@@ -379,7 +387,9 @@ class Recharge extends Component {
               </div>
               <div className={ currentStep === 2 ? '' : 'app-none-display' }>
                 <Spin spinning={pendingState}>
-                  <FormStepThree dispatch={dispatch} paymentMethod={paymentMethod} />
+                  <FormStepThree dispatch={dispatch}
+                                 paymentMethod={paymentMethod}
+                                 paymentAmount={paymentAmount} />
                 </Spin>
               </div>
               <div className={ currentStep === 3 ? '' : 'app-none-display' }>
@@ -408,7 +418,8 @@ const mapStateToProps = (state) => {
     dispatch: state.dispatch,
     currentStep: state.recharge.currentStep,
     pendingState: state.recharge.pendingState,
-    paymentMethod: state.recharge.paymentMethod
+    paymentMethod: state.recharge.paymentMethod,
+    paymentAmount: state.recharge.paymentAmount
   };
 };
 
